@@ -19,7 +19,7 @@ pub mod ilp_cbc;
 pub const EPSILON_ALLOWANCE: f64 = 0.00001;
 
 pub trait Extractor: Sync {
-    fn extract(&self, egraph: &EGraph, roots: &[ClassId]) -> ExtractionResult;
+    fn extract(&self, egraph: &mut EGraph, roots: &Vec<ClassId>) -> ExtractionResult;
 
     fn boxed(self) -> Box<dyn Extractor>
     where

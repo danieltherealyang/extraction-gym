@@ -17,7 +17,7 @@ use super::*;
 pub struct FasterBottomUpExtractor;
 
 impl Extractor for FasterBottomUpExtractor {
-    fn extract(&self, egraph: &EGraph, _roots: &[ClassId]) -> ExtractionResult {
+    fn extract(&self, egraph: &mut EGraph, _roots: &Vec<ClassId>) -> ExtractionResult {
         let mut parents = IndexMap::<ClassId, Vec<NodeId>>::with_capacity(egraph.classes().len());
         let n2c = |nid: &NodeId| egraph.nid_to_cid(nid);
         let mut analysis_pending = UniqueQueue::default();

@@ -9,7 +9,7 @@ struct CostSet {
 
 pub struct GreedyDagExtractor;
 impl Extractor for GreedyDagExtractor {
-    fn extract(&self, egraph: &EGraph, _roots: &[ClassId]) -> ExtractionResult {
+    fn extract(&self, egraph: &mut EGraph, _roots: &Vec<ClassId>) -> ExtractionResult {
         let mut costs = FxHashMap::<ClassId, CostSet>::with_capacity_and_hasher(
             egraph.classes().len(),
             Default::default(),

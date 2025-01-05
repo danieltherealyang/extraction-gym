@@ -176,7 +176,7 @@ pub struct FasterCbcExtractorWithTimeout<const TIMEOUT_IN_SECONDS: u32>;
 impl<const TIMEOUT_IN_SECONDS: u32> Extractor
     for FasterCbcExtractorWithTimeout<TIMEOUT_IN_SECONDS>
 {
-    fn extract(&self, egraph: &EGraph, roots: &[ClassId]) -> ExtractionResult {
+    fn extract(&self, egraph: &mut EGraph, roots: &Vec<ClassId>) -> ExtractionResult {
         return extract(egraph, roots, &Config::default(), TIMEOUT_IN_SECONDS);
     }
 }
@@ -184,7 +184,7 @@ impl<const TIMEOUT_IN_SECONDS: u32> Extractor
 pub struct FasterCbcExtractor;
 
 impl Extractor for FasterCbcExtractor {
-    fn extract(&self, egraph: &EGraph, roots: &[ClassId]) -> ExtractionResult {
+    fn extract(&self, egraph: &EGraph, roots: &Vec<ClassId>) -> ExtractionResult {
         return extract(egraph, roots, &Config::default(), std::u32::MAX);
     }
 }

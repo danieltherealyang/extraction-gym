@@ -137,7 +137,7 @@ fn main() {
 
     let mut out_file = std::fs::File::create(out_filename).unwrap();
 
-    let egraph = EGraph::from_json_file(&filename)
+    let mut egraph = EGraph::from_json_file(&filename)
         .with_context(|| format!("Failed to parse {filename}"))
         .unwrap();
 
@@ -147,7 +147,8 @@ fn main() {
         .unwrap();
 
     let start_time = std::time::Instant::now();
-    let result = ed.extractor.extract(&egraph, &egraph.root_eclasses);
+    let roots = egraph.root_eclasses.clone();
+    let result = ed.extractor.extract(&mut egraph, &roots);
     let us = start_time.elapsed().as_micros();
 
     result.check(&egraph);

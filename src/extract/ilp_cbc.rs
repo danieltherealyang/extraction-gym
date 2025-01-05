@@ -17,7 +17,7 @@ struct ClassVars {
 pub struct CbcExtractorWithTimeout<const TIMEOUT_IN_SECONDS: u32>;
 
 impl<const TIMEOUT_IN_SECONDS: u32> Extractor for CbcExtractorWithTimeout<TIMEOUT_IN_SECONDS> {
-    fn extract(&self, egraph: &EGraph, roots: &[ClassId]) -> ExtractionResult {
+    fn extract(&self, egraph: &mut EGraph, roots: &Vec<ClassId>) -> ExtractionResult {
         return extract(egraph, roots, TIMEOUT_IN_SECONDS);
     }
 }
@@ -25,12 +25,12 @@ impl<const TIMEOUT_IN_SECONDS: u32> Extractor for CbcExtractorWithTimeout<TIMEOU
 pub struct CbcExtractor;
 
 impl Extractor for CbcExtractor {
-    fn extract(&self, egraph: &EGraph, roots: &[ClassId]) -> ExtractionResult {
+    fn extract(&self, egraph: &EGraph, roots: &Vec<ClassId>) -> ExtractionResult {
         return extract(egraph, roots, std::u32::MAX);
     }
 }
 
-fn extract(egraph: &EGraph, roots: &[ClassId], timeout_seconds: u32) -> ExtractionResult {
+fn extract(egraph: &EGraph, roots: &Vec<ClassId>, timeout_seconds: u32) -> ExtractionResult {
     let mut model = Model::default();
 
     model.set_parameter("seconds", &timeout_seconds.to_string());

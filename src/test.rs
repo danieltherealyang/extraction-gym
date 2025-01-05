@@ -119,11 +119,12 @@ fn check_optimal_results<I: Iterator<Item = EGraph>>(egraphs: I) {
         }
     }
 
-    for egraph in egraphs {
+    for mut egraph in egraphs {
         let mut optimal_dag_cost: Option<Cost> = None;
 
         for e in &optimal_dag {
-            let extract = e.extract(&egraph, &egraph.root_eclasses);
+            let roots = egraph.root_eclasses.clone();
+            let extract = e.extract(&mut egraph, &roots);
             extract.check(&egraph);
             let dag_cost = extract.dag_cost(&egraph, &egraph.root_eclasses);
             let tree_cost = extract.tree_cost(&egraph, &egraph.root_eclasses);
@@ -145,7 +146,8 @@ fn check_optimal_results<I: Iterator<Item = EGraph>>(egraphs: I) {
         let mut optimal_tree_cost: Option<Cost> = None;
 
         for e in &optimal_tree {
-            let extract = e.extract(&egraph, &egraph.root_eclasses);
+            let roots = egraph.root_eclasses.clone();
+            let extract = e.extract(&mut egraph, &roots);
             extract.check(&egraph);
             let tree_cost = extract.tree_cost(&egraph, &egraph.root_eclasses);
             if optimal_tree_cost.is_none() {
@@ -164,7 +166,8 @@ fn check_optimal_results<I: Iterator<Item = EGraph>>(egraphs: I) {
         }
 
         for e in &others {
-            let extract = e.extract(&egraph, &egraph.root_eclasses);
+            let roots = egraph.root_eclasses.clone();
+            let extract = e.extract(&mut egraph, &roots);
             extract.check(&egraph);
             let tree_cost = extract.tree_cost(&egraph, &egraph.root_eclasses);
             let dag_cost = extract.dag_cost(&egraph, &egraph.root_eclasses);
