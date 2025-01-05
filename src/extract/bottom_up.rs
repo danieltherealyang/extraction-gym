@@ -5,6 +5,8 @@ use super::*;
 pub struct BottomUpExtractor;
 impl Extractor for BottomUpExtractor {
     fn extract(&self, egraph: &mut EGraph, _roots: &Vec<ClassId>) -> ExtractionResult {
+        *egraph = minimize(egraph, _roots);
+
         let mut result = ExtractionResult::default();
         let mut costs = FxHashMap::<ClassId, Cost>::with_capacity_and_hasher(
             egraph.classes().len(),

@@ -1029,7 +1029,6 @@ where
     EquivClasses::Item: IntoIterator<Item = ClassId>,
 {
     let mut result: EGraph = EGraph::default();
-    result.root_eclasses = egraph.root_eclasses.clone();
 
     let mut state_to_equiv: HashMap<ClassId, ClassId> = HashMap::new();
 
@@ -1044,6 +1043,12 @@ where
         equiv_node.eclass = state_to_equiv[&node.eclass].clone();
         result.add_node(node_id.clone(), equiv_node);
     }
+
+    let new_roots: HashSet<ClassId> = egraph.root_eclasses.iter().map(
+        |class_id| state_to_equiv[&class_id].clone(),
+    ).collect();
+
+    result.root_eclasses = new_roots.into_iter().collect();
 
     return result;
 }
