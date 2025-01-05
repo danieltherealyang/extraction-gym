@@ -5,6 +5,7 @@ use std::collections::HashMap;
 pub use crate::*;
 
 pub mod bottom_up;
+pub mod dtfa;
 pub mod faster_bottom_up;
 pub mod faster_greedy_dag;
 #[cfg(feature = "ilp-cbc")]
